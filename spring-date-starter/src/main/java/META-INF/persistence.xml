@@ -3,6 +3,7 @@
 	<persistence-unit name="spring-date-starter">
 		
 		<class>br.com.spring_date_starter.model.Pessoa</class>
+		<class>br.com.spring_date_starter.model.Telefone</class>
 	
 	</persistence-unit>
 </persistence>

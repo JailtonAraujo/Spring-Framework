@@ -10,7 +10,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import br.com.spring_date_starter.dao.InterfacePessoa;
+import br.com.spring_date_starter.dao.TelefoneRepository;
 import br.com.spring_date_starter.model.Pessoa;
+import br.com.spring_date_starter.model.Telefone;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -20,13 +22,16 @@ public class appTestjpa {
 	@Autowired
 	private InterfacePessoa interfacePessoa;
 	
+	@Autowired
+	private TelefoneRepository telefoneRepository;
+	
 	@Test
 	public void testInsert() {
 		Pessoa pessoa = new Pessoa();
 		
 		pessoa.setIdade(30);
 		pessoa.setNome("Ricardo dias");
-		pessoa.setSobrenome("Marcos");
+		pessoa.setSobrenome("Marcos dfgfd");
 		
 		interfacePessoa.save(pessoa);
 		
@@ -97,5 +102,27 @@ public class appTestjpa {
 		System.out.println(pessoa.getNome());
 		System.out.println(pessoa.getSobrenome());
 		System.out.println(pessoa.getIdade());
+	}
+	
+	@Test
+	public void testDeletarPorNome() {
+		interfacePessoa.deletarPorNome("Ricardo");
+	}
+	
+	@Test
+	public void testeUpdateComClausura() {
+		interfacePessoa.updatePorNome("Araujo Santos", "Jailton");
+	}
+	
+	@Test
+	public void testInsertTelefone() {
+		Telefone telefone = new Telefone();
+		
+		Optional<Pessoa> pessoa = interfacePessoa.findById(1L);
+		
+		telefone.setNumero("4654556");
+		telefone.setPessoa(pessoa.get());
+		
+		telefoneRepository.save(telefone);
 	}
 }

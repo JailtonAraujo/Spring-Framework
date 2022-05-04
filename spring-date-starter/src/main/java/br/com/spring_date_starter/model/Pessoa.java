@@ -22,6 +22,8 @@ public class Pessoa implements Serializable{
 
 	private int idade;
 	
+	
+	
 	public Pessoa() {}
 	
 	
