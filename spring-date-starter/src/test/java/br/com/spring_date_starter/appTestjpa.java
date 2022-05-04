@@ -1,5 +1,8 @@
 package br.com.spring_date_starter;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +24,78 @@ public class appTestjpa {
 	public void testInsert() {
 		Pessoa pessoa = new Pessoa();
 		
-		pessoa.setIdade(23);
-		pessoa.setNome("Jailton");
-		pessoa.setSobrenome("Araujo");
+		pessoa.setIdade(30);
+		pessoa.setNome("Ricardo dias");
+		pessoa.setSobrenome("Marcos");
 		
 		interfacePessoa.save(pessoa);
 		
 	}
-
+	
+	@Test
+	public void testeConsulta() {
+		
+		Optional<Pessoa> pessoa = interfacePessoa.findById(1L);
+		
+		System.out.println(pessoa.get().getId());
+		System.out.println(pessoa.get().getNome());
+		System.out.println(pessoa.get().getSobrenome());
+		System.out.println(pessoa.get().getIdade());
+	}
+	
+	@Test
+	public void consultaTodos() {
+		
+		Iterable<Pessoa> list = interfacePessoa.findAll();
+		
+		for (Pessoa pessoa : list) {
+			System.out.println(pessoa.getId());
+			System.out.println(pessoa.getNome());
+			System.out.println(pessoa.getSobrenome());
+			System.out.println(pessoa.getIdade());
+			System.out.println("====================================");
+		}
+	}
+	
+	@Test
+	public void testUpdate() {
+		
+		Optional<Pessoa> pessoa = interfacePessoa.findById(3L);
+		
+		Pessoa data = pessoa.get();
+		
+		data.setNome("Fabio");
+		
+		interfacePessoa.save(data);
+		
+	}
+	
+	@Test
+	public void testDelete() {
+		
+		interfacePessoa.deleteById(3L);
+	}
+	
+	@Test
+	public void testConsultarPorNome() {
+		List<Pessoa> list = interfacePessoa.buscaPorNome("ricardo");
+		
+		for (Pessoa pessoa : list) {
+			System.out.println(pessoa.getId());
+			System.out.println(pessoa.getNome());
+			System.out.println(pessoa.getSobrenome());
+			System.out.println(pessoa.getIdade());
+			System.out.println("====================================");
+		}
+	}
+	
+	@Test
+	public void testBuscaExata() {
+		Pessoa pessoa = interfacePessoa.buscaExata("Jailton");
+		
+		System.out.println(pessoa.getId());
+		System.out.println(pessoa.getNome());
+		System.out.println(pessoa.getSobrenome());
+		System.out.println(pessoa.getIdade());
+	}
 }
