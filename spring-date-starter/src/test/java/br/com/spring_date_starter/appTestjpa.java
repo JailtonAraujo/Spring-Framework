@@ -1,5 +1,6 @@
 package br.com.spring_date_starter;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,6 +47,14 @@ public class appTestjpa {
 		System.out.println(pessoa.get().getNome());
 		System.out.println(pessoa.get().getSobrenome());
 		System.out.println(pessoa.get().getIdade());
+		System.out.println(interfacePessoa.count());
+		
+	for (Telefone telefone : pessoa.get().getTelefones() ) {
+			System.out.println(telefone.getId());
+			System.out.println(telefone.getNumero());
+		}
+	
+		
 	}
 	
 	@Test
