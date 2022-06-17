@@ -3,10 +3,18 @@ package com.br.model;
 import java.util.Collection;
 import java.util.List;
 
+import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import javax.persistence.UniqueConstraint;
 
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -28,6 +36,15 @@ public class Usuario implements UserDetails {
 
 	private String login;
 
+	@OneToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "usuarios_role", uniqueConstraints = @UniqueConstraint(
+				columnNames = {"usuario_id","role_id"}, name = "unique_user"),
+		joinColumns = @JoinColumn(name="usuario_id", referencedColumnName = "id", table = "usuario", unique = false,
+				foreignKey = @ForeignKey(name="fk_usuariorole_usuario", value = ConstraintMode.CONSTRAINT)),
+		
+		inverseJoinColumns = @JoinColumn(name="role_id", referencedColumnName = "id", table = "role", unique = false,
+				foreignKey = @ForeignKey(name="fk_usuariorole_role", value = ConstraintMode.CONSTRAINT)) 
+	)
 	List<Role> roles;
 
 	@Override
