@@ -20,8 +20,8 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Service
 public class JWTTokenAuthenticationService {
 
-	//Token expiration time (1 day)
-	private static final long EXPIRATION_TIME = 86400000;
+	//Token expiration time (8 hours day)
+	private static final long EXPIRATION_TIME = 28800000;
 	
 	//Unique key to compose token
 	private static final String SECRET ="c6b4bdfa-c0cd-4094-85db-61adb0b54cab";
@@ -47,6 +47,11 @@ public class JWTTokenAuthenticationService {
 		
 		//adding token at the response body
 		response.getWriter().write("{ \"Authorization\":\""+token+"\"}");
+		
+
+		Usuario temp = ApplicationContextLoad.getAplApplicationContext().getBean(UsuarioRepository.class).findByLogin(username);
+		temp.setToken(JWT);
+		 ApplicationContextLoad.getAplApplicationContext().getBean(UsuarioRepository.class).save(temp);
 	}
 	
 	//returning user valid or in case invalid user return null
@@ -67,7 +72,11 @@ public class JWTTokenAuthenticationService {
 				Usuario user = ApplicationContextLoad.getAplApplicationContext().getBean(UsuarioRepository.class).findByLogin(username);
 				
 				if(user != null) {
-					return new UsernamePasswordAuthenticationToken(user.getLogin(), user.getSenha(), user.getAuthorities());
+					
+					if(clearToken.replace(" ", "").equalsIgnoreCase(user.getToken())) {
+						return new UsernamePasswordAuthenticationToken(user.getLogin(), user.getSenha(), user.getAuthorities());
+					}
+					
 				}
 				
 			}
