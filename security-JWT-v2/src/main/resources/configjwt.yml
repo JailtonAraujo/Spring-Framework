@@ -1,0 +1,3 @@
+jwt:
+  secret: bc8a8a3e-b490-4e82-9a76-687d6aec8746
+  expiration: 86400000
