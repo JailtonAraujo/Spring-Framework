@@ -19,6 +19,8 @@ public class JwtService {
 
     private static final String SECRET_KEY = "404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970";
 
+    private static  final String PREFIX_TOKEN="Bearer ";
+
     public String extractUserId(String token) {
         return extractClaims(token,Claims::getSubject);
     }
@@ -33,7 +35,7 @@ public class JwtService {
     }
 
     public String generateToken(Map<String, Object> extraClaims, User user){
-         return  Jwts
+         return PREFIX_TOKEN+Jwts
                  .builder()
                  .setClaims(extraClaims)
                  .setSubject(user.getId().toString())
@@ -45,7 +47,7 @@ public class JwtService {
 
     public boolean isTokenValid(String token, User user){
         final String id = extractUserId(token);
-        return (id.equals(user.getId())) && !isTokenExpirate(token);
+        return (id.equals(user.getId().toString())) && !isTokenExpirate(token);
     }
 
     private boolean isTokenExpirate(String token) {
