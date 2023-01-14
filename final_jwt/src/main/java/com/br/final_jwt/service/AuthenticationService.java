@@ -14,39 +14,43 @@ import org.springframework.stereotype.Service;
 public class AuthenticationService {
 
     private final UserRepository repository;
+
     private final PasswordEncoder passwordEncoder;
+
     private final JwtService jwtService;
+
     private final AuthenticationManager authenticationManager;
 
-    public AuthResponse register(User user) {
+    public AuthResponse register(User request) {
 
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        var userSaved = repository.save(user);
+        request.setPassword(passwordEncoder.encode(request.getPassword()));
 
-        var jwtToken = jwtService.generateToken(userSaved);//passando a id do usuario para o subject do token
+        var userCreated = repository.save(request);
 
-        AuthResponse authResponse = new AuthResponse(user,jwtToken);
+        var jwtToken = jwtService.generateToken(userCreated);
+
+        var authResponse = new AuthResponse(userCreated,jwtToken);
 
         return authResponse;
     }
 
-    public AuthResponse authenticate(User userRequest) {
-
-        System.out.println(userRequest.getUsername() +""+userRequest.getPassword());
+    public AuthResponse authenticate(User request) {
 
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                       userRequest.getUsername(),
-                        userRequest.getPassword()
+                        request.getUsername(),
+                        request.getPassword()
                 )
         );
-        var user = repository.findByUsername(userRequest.getUsername())
-                .orElseThrow();
-        var jwtToken = jwtService.generateToken(user);//passando a id do usuario para o subject do token
 
-        AuthResponse authResponse = new AuthResponse(user,jwtToken);
+        var user = repository.findByUsername(request.getUsername())
+                .orElseThrow();
+
+        var jwtToken = jwtService.generateToken(user);
+
+        var authResponse = new AuthResponse(user,jwtToken);
 
         return authResponse;
-    }
 
+    }
 }
