@@ -12,4 +12,4 @@ spring:
     show-sql: true
 
 jwt:
-  secret: f8460fcd-42e3-4bfd-a6c6-c07023625bd7
+  secret: 2948404D635166546A576E5A7234753778214125442A462D4A614E645267556B
