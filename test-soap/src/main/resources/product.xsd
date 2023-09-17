@@ -1,0 +1,90 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://spring.io/guides/gs-producing-product-service"
+           targetNamespace="http://spring.io/guides/gs-producing-product-service" elementFormDefault="qualified">
+
+    <xs:element name="saveProductRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="product" type="tns:product"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="saveProductResponse">
+        <xs:complexType>
+             <xs:sequence>
+                <xs:element name="result" type="xs:string"/>
+             </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getAllProductsRequest"/>
+
+    <xs:element name="getAllProductsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="productList" minOccurs="0" type="tns:productList"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getProductByUidRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="uid" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getProductByUidResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="produc" type="tns:product"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+       <xs:element name="deleteProductByUidRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="uid" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="deleteProductByUidResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="result" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:complexType name="product">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="quant" type="xs:int"/>
+            <xs:element name="description" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+     <xs:complexType name="productRes">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="uid" type="xs:string"/>
+            <xs:element name="quant" type="xs:int"/>
+            <xs:element name="description" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+     <xs:complexType name="productList">
+        <xs:sequence>
+            <xs:element name="product" type="tns:productRes" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- <xs:complexType name="category">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType> -->
+</xs:schema>
